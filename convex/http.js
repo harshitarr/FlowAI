@@ -54,7 +54,7 @@ http.route({
           email,
           name,
           image: image_url,
-          clerkId: id, // must match your schema and mutation
+          clerkId: id, 
         });
       } catch (error) {
         console.error("Error creating user:", error);

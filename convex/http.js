@@ -66,4 +66,30 @@ http.route({
   }),
 });
 
+http.route({
+  path:"/vapi/generate-program",
+  method:"POST",
+  handler:httpAction(async(ctx,request)=>{
+    try{
+
+      const payload = await request.json();
+
+      const{
+             user_id,
+              age,
+              height,
+              weight,
+              injuries,
+              workout_days,
+              fitness_goal,
+              fitness_level,
+              dietary_restrictions,
+      }=payload
+       
+    }catch(error){
+
+    }
+  })
+})
+
 export default http;

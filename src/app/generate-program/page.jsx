@@ -6,6 +6,8 @@ import { vapi } from "@/lib/vapi";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 const GenerateProgramPage = () => {
   const [callActive, setCallActive] = useState(false);
@@ -14,8 +16,11 @@ const GenerateProgramPage = () => {
   const [messages, setMessages] = useState([]);
   const [callEnded, setCallEnded] = useState(false);
 
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const router = useRouter();
+
+  // ✅ Hook to create Vapi session
+  const createVapiSession = useMutation(api.sessions.createVapiSession);
 
   const messageContainerRef = useRef(null);
 
@@ -129,14 +134,39 @@ const GenerateProgramPage = () => {
         setMessages([]);
         setCallEnded(false);
 
+        // Ensure user is loaded before starting call
+        if (!user?.id) {
+          console.error("User not loaded or authenticated");
+          setConnecting(false);
+          return;
+        }
+
         const fullName = user?.firstName
           ? `${user.firstName} ${user.lastName || ""}`.trim()
           : "There";
 
+        console.log("Creating Vapi session for user:", user.id);
+        console.log("Full name:", fullName);
+
+        // ✅ CREATE USER SESSION: Store current user for Vapi calls
+        try {
+          await createVapiSession({
+            clerkId: user.id,
+            timestamp: Date.now()
+          });
+          
+          console.log("Vapi session created successfully for:", user.id);
+        } catch (sessionError) {
+          console.error("Error creating Vapi session:", sessionError);
+          setConnecting(false);
+          return;
+        }
+
+        // ✅ Start Vapi call - no user ID passed, backend gets it from session
         await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID, {
           variableValues: {
             full_name: fullName,
-            user_id: user?.id,
+            // ✅ No user ID - backend will get it dynamically from session
           },
         });
       } catch (error) {
@@ -146,8 +176,35 @@ const GenerateProgramPage = () => {
     }
   };
 
+  // Show loading state while user data is loading
+  if (!isLoaded) {
+    return (
+      <div className="flex flex-col min-h-screen text-foreground overflow-hidden pb-6 pt-24">
+        <div className="container mx-auto px-4 h-full max-w-5xl">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <span className="ml-2 text-muted-foreground font-mono">Loading user data...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show sign-in prompt if user is not authenticated
+  if (!user) {
+    return (
+      <div className="flex flex-col min-h-screen text-foreground overflow-hidden pb-6 pt-24">
+        <div className="container mx-auto px-4 h-full max-w-5xl">
+          <div className="flex items-center justify-center h-64">
+            <span className="text-muted-foreground font-mono">Please sign in to use the fitness assistant</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col min-h-screen text-foreground overflow-hidden  pb-6 pt-24">
+    <div className="flex flex-col min-h-screen text-foreground overflow-hidden pb-6 pt-24">
       <div className="container mx-auto px-4 h-full max-w-5xl">
         {/* Title */}
         <div className="text-center mb-8">
@@ -242,7 +299,6 @@ const GenerateProgramPage = () => {
                 <img
                   src={user?.imageUrl}
                   alt="User"
-                  // ADD THIS "size-full" class to make it rounded on all images
                   className="size-full object-cover rounded-full"
                 />
               </div>
@@ -255,7 +311,9 @@ const GenerateProgramPage = () => {
               {/* User Ready Text */}
               <div className={`mt-4 flex items-center gap-2 px-3 py-1 rounded-full bg-card border`}>
                 <div className={`w-2 h-2 rounded-full bg-muted`} />
-                <span className="text-xs text-muted-foreground">Ready</span>
+                <span className="text-xs text-muted-foreground">
+                  {user?.id ? "Ready" : "Loading..."}
+                </span>
               </div>
             </div>
           </Card>
@@ -300,7 +358,7 @@ const GenerateProgramPage = () => {
                   : "bg-primary hover:bg-primary/90"
             } text-white relative`}
             onClick={toggleCall}
-            disabled={connecting || callEnded}
+            disabled={connecting || callEnded || !user?.id}
           >
             {connecting && (
               <span className="absolute inset-0 rounded-full animate-ping bg-primary/50 opacity-75"></span>
@@ -313,7 +371,9 @@ const GenerateProgramPage = () => {
                   ? "Connecting..."
                   : callEnded
                     ? "View Profile"
-                    : "Start Call"}
+                    : !user?.id
+                      ? "Loading..."
+                      : "Start Call"}
             </span>
           </Button>
         </div>

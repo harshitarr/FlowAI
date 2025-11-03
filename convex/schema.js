@@ -6,11 +6,19 @@ export default defineSchema({
     name: v.string(),
     email: v.string(),
     image: v.optional(v.string()),
+    clerkId: v.string(), // ✅ This stores the actual clerkId
+  }).index("by_clerk_id", ["clerkId"]),
+
+  // ✅ NEW: Vapi user sessions for dynamic user identification
+  vapi_sessions: defineTable({
     clerkId: v.string(),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+    isActive: v.boolean(),
   }).index("by_clerk_id", ["clerkId"]),
 
   plans: defineTable({
-    userId: v.string(),
+    userId: v.string(), // ✅ Keep this! It stores the clerkId value
     name: v.string(),
     workoutPlan: v.object({
       schedule: v.array(v.string()),
@@ -20,11 +28,9 @@ export default defineSchema({
           routines: v.array(
             v.object({
               name: v.string(),
-              sets: v.optional(v.number()),
-              reps: v.optional(v.number()),
-              duration: v.optional(v.string()),
-              description: v.optional(v.string()),
-              exercises: v.optional(v.array(v.string())),
+              sets: v.number(), // ✅ Keep as required number (not optional)
+              reps: v.number(), // ✅ Keep as required number (not optional)
+              // ✅ Removed optional fields that might cause AI validation issues
             })
           ),
         })
@@ -41,6 +47,6 @@ export default defineSchema({
     }),
     isActive: v.boolean(),
   })
-    .index("by_user_id", ["userId"])
+    .index("by_user_id", ["userId"]) // ✅ Keep this index for userId queries
     .index("by_active", ["isActive"]),
 });

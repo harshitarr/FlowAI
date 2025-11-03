@@ -50,7 +50,6 @@ http.route({
       const { id, first_name, last_name, image_url, email_addresses } = evt.data;
 
       const email = email_addresses[0].email_address;
-
       const name = `${first_name || ""} ${last_name || ""}`.trim();
 
       try {
@@ -125,9 +124,10 @@ http.route({
     try {
       const payload = await request.json();
 
+      // ✅ Remove user_identifier - only extract fitness data
       const {
-        user_id,
         age,
+        gender,
         height,
         weight,
         injuries,
@@ -135,14 +135,49 @@ http.route({
         fitness_goal,
         fitness_level,
         dietary_restrictions,
+        // ✅ No user_identifier - we get it dynamically from session
       } = payload;
 
-      console.log("Payload is here:", payload);
+      console.log("Payload received:", payload);
+
+      // ✅ Get clerkId from the most recent active user session
+      const currentUser = await ctx.runQuery(api.sessions.getCurrentVapiUser);
+      
+      if (!currentUser) {
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: "No active user session found. Please refresh and try again.",
+          }),
+          { status: 401, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      const clerkId = currentUser.clerkId;
+      console.log("Using dynamic clerkId from active session:", clerkId);
+
+      // ✅ Verify user exists in database
+      const existingUser = await ctx.runQuery(api.users.getUserByClerkId, { 
+        clerkId: clerkId 
+      });
+      
+      if (!existingUser) {
+        console.error("User not found in database for clerkId:", clerkId);
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: "User not found in database",
+          }),
+          { status: 404, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      console.log("User found in database:", existingUser);
 
       const model = genAI.getGenerativeModel({
         model: "gemini-2.0-flash-001",
         generationConfig: {
-          temperature: 0.4, // lower temperature for more predictable outputs
+          temperature: 0.4,
           topP: 0.9,
           responseMimeType: "application/json",
         },
@@ -150,6 +185,7 @@ http.route({
 
       const workoutPrompt = `You are an experienced fitness coach creating a personalized workout plan based on:
       Age: ${age}
+      Gender: ${gender}
       Height: ${height}
       Weight: ${weight}
       Injuries or limitations: ${injuries}
@@ -191,15 +227,18 @@ http.route({
       
       DO NOT add any fields that are not in this example. Your response must be a valid JSON object with no additional text.`;
 
+      console.log("Generating workout plan...");
       const workoutResult = await model.generateContent(workoutPrompt);
       const workoutPlanText = workoutResult.response.text();
 
       // VALIDATE THE INPUT COMING FROM AI
       let workoutPlan = JSON.parse(workoutPlanText);
       workoutPlan = validateWorkoutPlan(workoutPlan);
+      console.log("Workout plan generated and validated");
 
       const dietPrompt = `You are an experienced nutrition coach creating a personalized diet plan based on:
         Age: ${age}
+        Gender: ${gender}
         Height: ${height}
         Weight: ${weight}
         Fitness goal: ${fitness_goal}
@@ -235,21 +274,26 @@ http.route({
         
         DO NOT add any fields that are not in this example. Your response must be a valid JSON object with no additional text.`;
 
+      console.log("Generating diet plan...");
       const dietResult = await model.generateContent(dietPrompt);
       const dietPlanText = dietResult.response.text();
 
       // VALIDATE THE INPUT COMING FROM AI
       let dietPlan = JSON.parse(dietPlanText);
       dietPlan = validateDietPlan(dietPlan);
+      console.log("Diet plan generated and validated");
 
-      // save to our DB: CONVEX
-      const planId = await ctx.runMutation(api.plans.createPlan, {
-        userId: user_id,
+      // ✅ Save plan with dynamic clerkId from session
+      console.log("Creating plan in database for userId:", clerkId);
+      const planId = await ctx.runMutation(api.plans.createPlanWithUserId, {
+        userId: clerkId, // ✅ Dynamic clerkId from active session
         dietPlan,
         isActive: true,
         workoutPlan,
         name: `${fitness_goal} Plan - ${new Date().toLocaleDateString()}`,
       });
+
+      console.log("Plan created successfully with ID:", planId);
 
       return new Response(
         JSON.stringify({
@@ -258,6 +302,7 @@ http.route({
             planId,
             workoutPlan,
             dietPlan,
+            userId: clerkId, // ✅ Dynamic clerkId in response
           },
         }),
         {

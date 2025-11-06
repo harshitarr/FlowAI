@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "FlowAI",
   description: "Modern Fitness AI platform to get the best fit of yourself",
+  icons: {
+    icon: "/heart-plus.svg", 
+  },
 };
 
 export default function RootLayout({ children }) {

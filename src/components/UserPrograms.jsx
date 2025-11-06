@@ -1,234 +1,109 @@
+import { Button } from "@/components/ui/button"; // Assuming you have this from your other components
+import { Zap, Target, TrendingUp,Sparkles } from "lucide-react";
+import { motion } from "framer-motion"; // Added framer-motion 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ChevronRight,
-  Dumbbell,
-  Sparkles,
-  Users,
-  Clock,
-  AppleIcon,
-  ShieldIcon,
-} from "lucide-react";
-import { USER_PROGRAMS } from "@/constants";
 
 const UserPrograms = () => {
+  const features = [
+    {
+      icon: Zap,
+      title: "AI-Powered Workouts",
+      description:
+        "Smart algorithms create personalized workout plans that evolve with your progress",
+    },
+    {
+      icon: Target,
+      title: "Goal-Oriented Training",
+      description:
+        "Target specific areas and achieve your fitness goals with precision-crafted programs",
+    },
+    {
+      icon: TrendingUp,
+      title: "Progress Tracking",
+      description:
+        "Monitor your improvements with detailed analytics and adaptive recommendations",
+    },
+  ];
+
   return (
-    <div className="w-full pb-24 pt-16 relative">
-      <div className="container mx-auto max-w-6xl px-4">
-        {/* HEADER- PROGRAM GALLERY */}
-        <div className="bg-card/90 backdrop-blur-sm border border-border rounded-lg overflow-hidden mb-8 sm:mb-12 md:mb-16">
-  {/* HEADER BAR */}
-  <div className="flex items-center justify-between px-3 sm:px-4 md:px-5 py-2 sm:py-3 border-b border-border bg-background/70">
-    <div className="flex items-center gap-2">
-      <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-primary"></div>
-      <span className="text-xs sm:text-sm text-primary font-medium">Program Gallery</span>
-    </div>
-    <div className="text-xs sm:text-sm text-muted-foreground">Featured Plans</div>
-  </div>
+    <>
+      {/* "Why Choose FlowAI?" Section */}
+      <section className="py-24 px-8 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              Why Choose Flow<span className="text-primary">.AI</span>?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Our AI-powered platform adapts to your unique fitness goals and
+              preferences
+            </p>
+          </motion.div>
 
-  {/* HEADER CONTENT */}
-  <div className="p-4 sm:p-6 md:p-8 text-center">
-    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-5 md:mb-6">
-      <span className="text-foreground">AI-Generated </span>
-      <span className="text-primary">Programs</span>
-    </h2>
-
-    <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-sm sm:max-w-md md:max-w-xl mx-auto mb-6 sm:mb-8 md:mb-10">
-      Explore personalized fitness plans our AI assistant has created for other users
-    </p>
-
-    {/* STATS - RESPONSIVE LAYOUT */}
-    <div className="mt-6 sm:mt-8 md:mt-10 font-mono">
-      {/* Mobile Layout - Stacked */}
-      <div className="flex flex-col sm:hidden gap-6">
-        <div className="flex flex-col items-center">
-          <p className="text-2xl sm:text-3xl text-primary">500+</p>
-          <p className="text-xs uppercase tracking-wide mt-1 text-muted-foreground">
-            PROGRAMS
-          </p>
-        </div>
-        <div className="h-px w-16 bg-border mx-auto"></div>
-        <div className="flex flex-col items-center">
-          <p className="text-2xl sm:text-3xl text-primary">3min</p>
-          <p className="text-xs uppercase tracking-wide mt-1 text-muted-foreground">
-            CREATION TIME
-          </p>
-        </div>
-        <div className="h-px w-16 bg-border mx-auto"></div>
-        <div className="flex flex-col items-center">
-          <p className="text-2xl sm:text-3xl text-primary">100%</p>
-          <p className="text-xs uppercase tracking-wide mt-1 text-muted-foreground">
-            PERSONALIZED
-          </p>
-        </div>
-      </div>
-
-      {/* Tablet and Desktop Layout - Horizontal */}
-      <div className="hidden sm:flex items-center justify-center gap-8 md:gap-12 lg:gap-16">
-        <div className="flex flex-col items-center">
-          <p className="text-2xl md:text-3xl text-primary">500+</p>
-          <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wide mt-1">
-            PROGRAMS
-          </p>
-        </div>
-        <div className="w-px h-8 sm:h-10 md:h-12 bg-border"></div>
-        <div className="flex flex-col items-center">
-          <p className="text-2xl md:text-3xl text-primary">3min</p>
-          <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wide mt-1">
-            CREATION TIME
-          </p>
-        </div>
-        <div className="w-px h-8 sm:h-10 md:h-12 bg-border"></div>
-        <div className="flex flex-col items-center">
-          <p className="text-2xl md:text-3xl text-primary">100%</p>
-          <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wide mt-1">
-            PERSONALIZED
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-        {/* Program cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {USER_PROGRAMS.map((program) => (
-            <Card
-              key={program.id}
-              className="bg-card/90 backdrop-blur-sm border border-border hover:border-primary/50 transition-colors overflow-hidden"
-            >
-              {/* Card header with user info */}
-              <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-background/70">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-sm text-primary">USER.{program.id}</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-card backdrop-blur-md border border-border rounded-lg p-8 hover:border-primary/50 transition-all duration-300 shadow-sm"
+              >
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 border border-primary/20">
+                  <feature.icon className="w-6 h-6 text-primary" />
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  {program.fitness_level.toUpperCase()}
-                </div>
-              </div>
-
-              <CardHeader className="pt-6 px-5">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-16 w-16 rounded-full overflow-hidden border border-border">
-                    <img
-                      src={program.profilePic}
-                      alt={`${program.first_name}`}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl text-foreground">
-                      {program.first_name}
-                      <span className="text-primary">.exe</span>
-                    </CardTitle>
-                    <div className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
-                      <Users className="h-4 w-4" />
-                      {program.age}y • {program.workout_days}d/week
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center gap-4">
-                  <div className="px-3 py-1 bg-primary/10 rounded border border-primary/20 text-sm text-primary flex items-center gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    {program.fitness_goal}
-                  </div>
-                  <div className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Clock className="h-4 w-4" />
-                    v3.5
-                  </div>
-                </div>
-              </CardHeader>
-
-              <CardContent className="px-5">
-                {/* Program details */}
-                <div className="space-y-5 pt-2">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
-                      <Dumbbell className="h-5 w-5" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center">
-                        <h3 className="font-medium text-foreground">
-                          {program.workout_plan.title}
-                        </h3>
-                      </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {program.equipment_access}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-md bg-secondary/10 text-secondary mt-0.5">
-                      <AppleIcon className="h-5 w-5" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center">
-                        <h3 className="font-medium text-foreground">{program.diet_plan.title}</h3>
-                      </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        System optimized nutrition
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
-                      <ShieldIcon className="h-5 w-5" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center">
-                        <h3 className="font-medium text-foreground">AI Safety Protocols</h3>
-                      </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Protection systems enabled
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Program description */}
-                <div className="mt-5 pt-5 border-t border-border">
-                  <div className="text-sm text-muted-foreground">
-                    <span className="text-primary">&gt; </span>
-                    {program.workout_plan.description.substring(0, 120)}...
-                  </div>
-                </div>
-              </CardContent>
-
-              <CardFooter className="px-5 py-4 border-t border-border">
-                <Link href={`/programs/${program.id}`} className="w-full">
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                    View Program Details
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
+                <h3 className="text-xl font-semibold text-foreground mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        {/* CTA section */}
-        <div className="mt-16 text-center">
-          <Link href="/generate-program">
+      {/* CTA Section */}
+      <section className="py-24 px-8 bg-secondary">
+        {" "}
+        {/* Used 'bg-secondary' from your theme for the light blue bg */}
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <h2 className="text-4xl font-bold text-foreground">
+              Ready to Transform Your Fitness?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Join thousands of users who have already discovered the power of
+              AI-driven fitness
+            </p>
             <Button
+              asChild
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 py-6 text-lg shadow-lg"
             >
-              Generate Your Program
+              <Link href="/generate-program">
+              Get Started Now
               <Sparkles className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
-          </Link>
-          <p className="text-muted-foreground mt-4">
-            Join 500+ users with AI-customized fitness programs
-          </p>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 

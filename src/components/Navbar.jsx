@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
-import { DumbbellIcon, HomeIcon, UserIcon, ZapIcon } from "lucide-react";
+import { DumbbellIcon, HomeIcon, UserIcon, ZapIcon , HeartPlus, Sparkles  } from "lucide-react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -28,9 +28,9 @@ const Navbar = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
         >
           <Link href="/" className="flex items-center gap-2">
-            <div className="p-1 bg-primary/10 rounded-md">
-              <ZapIcon className="w-5 h-5 text-primary" />
-            </div>
+              <div className="p-1 bg-secondary-foreground/20 rounded-md">
+                <HeartPlus  className="w-5 h-5 text-secondary-foreground" />
+              </div>
             <span className="text-xl font-bold font-mono">
               <span className="text-primary">Flow</span>.AI
             </span>
@@ -58,7 +58,7 @@ const Navbar = () => {
                 href="/generate-program"
                 className="flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary transition-colors duration-300"
               >
-                <DumbbellIcon size={16} />
+                <Sparkles size={16} />
                 <span>Generate</span>
               </Link>
 

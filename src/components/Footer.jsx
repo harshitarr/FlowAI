@@ -1,4 +1,4 @@
-import { ZapIcon } from "lucide-react";
+import {HeartPlus } from "lucide-react";
 import Link from "next/link";
 
 const Footer = () => {
@@ -11,14 +11,14 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Logo and Copyright */}
           <div className="flex flex-col items-center md:items-start gap-2">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="p-1 bg-primary/10 rounded">
-                <ZapIcon className="w-4 h-4 text-primary" />
+          <Link href="/" className="flex items-center gap-2">
+              <div className="p-1 bg-secondary-foreground/20 rounded-md">
+                <HeartPlus  className="w-5 h-5 text-secondary-foreground" />
               </div>
-              <span className="text-xl font-bold font-mono">
-                Flow<span className="text-primary">.AI</span>
-              </span>
-            </Link>
+            <span className="text-xl font-bold font-mono">
+              <span className="text-primary">Flow</span>.AI
+            </span>
+          </Link>
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Flow.AI - All rights reserved
             </p>

@@ -47,124 +47,125 @@
   /* Base Variables */
   --radius: 0.625rem;
 
-  /* Cyberpunk Theme Colors */
-  --cyber-black: #000000;
-  --cyber-dark: #0a0c14;
-  --cyber-blue-bright: #18cef2;
-  --cyber-blue: #1089bd;
-  --cyber-blue-dark: #0b4a7d;
-  --cyber-blue-glow: #38bdf8;
-  --cyber-accent: #0ff4;
+  /* NEW: Light Theme Colors (based on image) */
+  --theme-black: #1A2B47; /* Dark blue text */
+  --theme-dark: #0A2540; /* Darkest blue text */
+  --theme-blue-bright: #5da6f5; /* Primary blue */
+  --theme-blue: #052342; /* Darker primary blue */
+  --theme-blue-dark: #004085; /* Darkest primary blue */
+  --theme-blue-glow: #E6F0FF; /* Light blue accent bg */
+  --theme-accent: rgba(0, 105, 217, 0.2); /* Primary blue with alpha */
 
   /* Background */
-  --background: var(--cyber-dark);
-  --foreground: #f2f2f2;
+  --background: #F4F8FA; /* Light blue-white background */
+  --foreground: #1A2B47; /* Dark blue text */
 
   /* Card and popover elements */
-  --card: #111827;
-  --card-foreground: #f2f2f2;
-  --popover: #111827;
-  --popover-foreground: #f2f2f2;
+  --card: #FFFFFF;
+  --card-foreground: #1A2B47;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A2B47;
 
   /* Primary - Main blue */
-  --primary: var(--cyber-blue-bright);
-  --primary-foreground: var(--cyber-dark);
+  --primary: var(--theme-blue-bright); /* #0069D9 */
+  --primary-foreground: #FFFFFF; /* White text on button */
 
-  /* Secondary - Darker blue */
-  --secondary: var(--cyber-blue);
-  --secondary-foreground: #ffffff;
+  /* Secondary - Lighter blue */
+  --secondary: var(--theme-blue-glow); /* #E6F0FF */
+  --secondary-foreground: var(--theme-blue); /* #0056B3 */
 
   /* Accent - Light blue with glow */
-  --accent: var(--cyber-blue-glow);
-  --accent-foreground: var(--cyber-dark);
+  --accent: var(--theme-blue-glow); /* #E6F0FF */
+  --accent-foreground: var(--theme-blue); /* #0056B3 */
 
   /* Muted elements */
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
+  --muted: #E9EEF2;
+  --muted-foreground: #5A6F8C; /* Muted sub-text */
 
   /* System colors */
   --destructive: #ef4444;
-  --border: rgba(24, 206, 242, 0.2);
-  --input: rgba(24, 206, 242, 0.2);
-  --ring: var(--cyber-blue);
+  --border: #DDE6ED;
+  --input: #FFFFFF;
+  --ring: var(--theme-blue-bright); /* #0069D9 */
 
-  /* Chart colors - cyberpunk theme */
-  --chart-1: var(--cyber-blue-bright);
-  --chart-2: #3b82f6;
-  --chart-3: var(--cyber-blue);
-  --chart-4: #06b6d4;
-  --chart-5: #0284c7;
+  /* Chart colors - light theme */
+  --chart-1: var(--theme-blue-bright);
+  --chart-2: var(--theme-blue);
+  --chart-3: var(--theme-blue-dark);
+  --chart-4: #5A6F8C;
+  --chart-5: var(--theme-black);
 
   /* Sidebar colors */
-  --sidebar: var(--cyber-dark);
-  --sidebar-foreground: #f2f2f2;
-  --sidebar-primary: var(--cyber-blue-bright);
-  --sidebar-primary-foreground: var(--cyber-dark);
-  --sidebar-accent: var(--cyber-blue);
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(24, 206, 242, 0.2);
-  --sidebar-ring: var(--cyber-blue);
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: var(--theme-black);
+  --sidebar-primary: var(--theme-blue-bright);
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: var(--theme-blue-glow);
+  --sidebar-accent-foreground: var(--theme-blue);
+  --sidebar-border: #DDE6ED;
+  --sidebar-ring: var(--theme-blue-bright);
 
-  /* Custom Cyberpunk UI Variables */
-  --cyber-grid-color: rgba(24, 206, 242, 0.05);
-  --cyber-glow-primary: rgba(24, 206, 242, 0.2);
-  --cyber-glow-strong: rgba(24, 206, 242, 0.5);
-  --cyber-line-color: rgba(24, 206, 242, 0.3);
-  --cyber-terminal-bg: rgba(0, 0, 0, 0.7);
-  --cyber-text-bright: #ffffff;
-  --cyber-text-muted: rgba(242, 242, 242, 0.7);
-  --cyber-text-dim: rgba(242, 242, 242, 0.5);
+  /* Custom UI Variables (mapped to new theme) */
+  --cyber-grid-color: rgba(221, 230, 237, 0.5);
+  --cyber-glow-primary: rgba(0, 105, 217, 0.1);
+  --cyber-glow-strong: rgba(0, 105, 217, 0.3);
+  --cyber-line-color: #CED9E0;
+  --cyber-terminal-bg: #FFFFFF;
+  --cyber-text-bright: var(--theme-black);
+  --cyber-text-muted: #5A6F8C;
+  --cyber-text-dim: #9FB3C8;
 }
 
 .dark {
+  /* NEW: Dark Theme (based on light theme blues) */
   /* Background */
-  --background: var(--cyber-dark);
-  --foreground: #f2f2f2;
+  --background: #0A1929;
+  --foreground: #F0F7FA;
 
   /* Card and popover elements */
-  --card: #111827;
-  --card-foreground: #f2f2f2;
-  --popover: #111827;
-  --popover-foreground: #f2f2f2;
+  --card: #112233;
+  --card-foreground: #F0F7FA;
+  --popover: #112233;
+  --popover-foreground: #F0F7FA;
 
-  /* Primary - Main blue */
-  --primary: var(--cyber-blue-bright);
-  --primary-foreground: var(--cyber-dark);
+  /* Primary - Brighter blue for dark mode */
+  --primary: #3399FF;
+  --primary-foreground: #0A1929;
 
   /* Secondary - Darker blue */
-  --secondary: var(--cyber-blue);
-  --secondary-foreground: #ffffff;
+  --secondary: #1C2E41;
+  --secondary-foreground: #F0F7FA;
 
   /* Accent - Light blue with glow */
-  --accent: var(--cyber-blue-glow);
-  --accent-foreground: var(--cyber-dark);
+  --accent: #1C2E41;
+  --accent-foreground: #F0F7FA;
 
   /* Muted elements */
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
+  --muted: #1C2E41;
+  --muted-foreground: #9FB3C8;
 
   /* System colors */
   --destructive: #ef4444;
-  --border: rgba(24, 206, 242, 0.2);
-  --input: rgba(24, 206, 242, 0.2);
-  --ring: var(--cyber-blue);
+  --border: #2C3E50;
+  --input: #1C2E41;
+  --ring: #3399FF;
 
-  /* Chart colors - cyberpunk theme */
-  --chart-1: var(--cyber-blue-bright);
-  --chart-2: #3b82f6;
-  --chart-3: var(--cyber-blue);
-  --chart-4: #06b6d4;
-  --chart-5: #0284c7;
+  /* Chart colors - dark theme */
+  --chart-1: #3399FF;
+  --chart-2: #007BFF;
+  --chart-3: #0069D9;
+  --chart-4: #0056B3;
+  --chart-5: #9FB3C8;
 
   /* Sidebar colors */
-  --sidebar: var(--cyber-dark);
-  --sidebar-foreground: #f2f2f2;
-  --sidebar-primary: var(--cyber-blue-bright);
-  --sidebar-primary-foreground: var(--cyber-dark);
-  --sidebar-accent: var(--cyber-blue);
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(24, 206, 242, 0.2);
-  --sidebar-ring: var(--cyber-blue);
+  --sidebar: #0A1929;
+  --sidebar-foreground: #F0F7FA;
+  --sidebar-primary: #3399FF;
+  --sidebar-primary-foreground: #0A1929;
+  --sidebar-accent: #1C2E41;
+  --sidebar-accent-foreground: #F0F7FA;
+  --sidebar-border: #2C3E50;
+  --sidebar-ring: #3399FF;
 }
 
 @layer base {

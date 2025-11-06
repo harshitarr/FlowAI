@@ -55,7 +55,7 @@ const HomePage = () => {
 
             {/* LEFT SIDE CONTENT */}
             <motion.div 
-              className="lg:col-span-6 space-y-4 sm:space-y-5 relative sm:ml-4 md:ml-10 lg:ml-20 md:text-left"
+              className="lg:col-span-6 space-y-4 sm:space-y-5 relative sm:ml-4 md:ml-10 lg:ml-20 text-center md:text-left"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}

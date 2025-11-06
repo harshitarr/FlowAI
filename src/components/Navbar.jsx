@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
-import { DumbbellIcon, HomeIcon, UserIcon, ZapIcon , HeartPlus, Sparkles  } from "lucide-react";
+import {  HomeIcon, UserIcon, ZapIcon , HeartPlus, Sparkles  } from "lucide-react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Link from "next/link";
 import { Button } from "./ui/button";

@@ -6,7 +6,6 @@ FlowAI is an intelligent fitness platform that blends AI-powered personalization
 
 ## Table of contents
 
-- [Overview](#overview)
 - [Tech stack](#tech-stack)
 - [Features](#features)
 - [Quick start (development)](#quick-start-development)

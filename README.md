@@ -16,7 +16,7 @@ FlowAI is an intelligent fitness platform that blends AI-powered personalization
 - [Deployment](#deployment)
 
 
-## Tech stack
+## ⭐ Tech stack
 
 - Next.js 15 (App Router)
 - React 19
@@ -28,7 +28,7 @@ FlowAI is an intelligent fitness platform that blends AI-powered personalization
 - ESLint
 
 
-## Features
+## ⭐ Features
 
 - AI-powered program and meal plan generation (VAPI / Google Generative API integration)
 - User authentication (Clerk)
@@ -38,7 +38,7 @@ FlowAI is an intelligent fitness platform that blends AI-powered personalization
 
 
 
-## Quick start (development)
+## ⭐ Quick start (development)
 
 These commands are intended for PowerShell on Windows (your default shell). From the repository root:
 
@@ -63,7 +63,7 @@ Notes:
 - The project uses Turbopack for local development by default via the `dev` script.
 - Convex and Clerk run independently from the Next app; make sure your Convex deployment URL and Clerk publishable key are configured via environment variables.
 
-## Environment variables
+## ⭐ Environment variables
 
 Create a `.env.local` file in the root (do NOT commit credentials). Example:
 
@@ -85,7 +85,7 @@ NODE_ENV=development
 
 Important: Keep keys secret and only expose publishable keys on the client. Server-only keys (like Google service keys) should be used in Convex functions or server-side code.
 
-## Available scripts
+## ⭐ Available scripts
 
 From `package.json`:
 
@@ -115,7 +115,7 @@ Top-level files and important folders in this repository:
 - `UserPrograms.jsx` — gallery of AI-generated programs
 - `ProfileHeader.jsx` — displays signed-in user's basic info
 
-## Convex & Clerk notes
+## ⭐ Convex & Clerk notes
 
 - Convex is used as the database and function host. The schema lives in `convex/schema.js`. Indexes include `by_user_id` for plans and `by_clerk_id` for users.
 - For local Convex development and deployment, use the Convex CLI. Typical commands:
@@ -130,11 +130,11 @@ npx convex deploy
 
 - Clerk is used for authentication. Provide `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` in `.env.local`. Configure Clerk dashboard redirect URLs (e.g., http://localhost:3000) in your Clerk app settings.
 
-## AI providers
+## ⭐ AI providers
 
 - The project includes `@vapi-ai/web` (client initialized in `src/lib/vapi.js`) and `@google/generative-ai` as dependencies. Configure `NEXT_PUBLIC_VAPI_API_KEY` for client calls. Any server-side (private) AI keys should be stored and used in Convex server functions or other server code only.
 
-## Deployment
+## ⭐ Deployment
 
 Recommended deployment target: Vercel (first-class Next.js support). Basic steps:
 
